@@ -1,0 +1,285 @@
+:root {
+    --primary: #2563eb;
+    --primary-light: #3b82f6;
+    --secondary: #10b981;
+    --dark: #1f2937;
+    --light: #f3f4f6;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #10b981;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    color: var(--light);
+    min-height: 100vh;
+}
+
+/* Navbar */
+nav {
+    background: rgba(31, 41, 55, 0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: var(--light);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(180deg, rgba(31, 41, 55, 0) 0%, rgba(17, 24, 39, 0.8) 100%);
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 2rem;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+}
+
+/* Agents Grid */
+.agents-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Agent Card */
+.agent-card {
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.agent-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: var(--primary-light);
+}
+
+.agent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.agent-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Status Indicator */
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.status-indicator.initialized {
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 5px var(--primary),
+                    0 0 10px var(--primary),
+                    0 0 15px var(--primary);
+    }
+    to {
+        box-shadow: 0 0 10px var(--primary),
+                    0 0 20px var(--primary),
+                    0 0 30px var(--primary);
+    }
+}
+
+/* Function Badges */
+.functions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+.function-badge {
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary-light);
+    transition: all 0.3s ease;
+}
+
+.function-badge:hover {
+    background: rgba(37, 99, 235, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+}
+
+/* Controls */
+.agent-controls {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.icon-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.edit-button:hover {
+    background: var(--primary);
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+}
+
+.delete-button:hover {
+    background: var(--danger);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+/* Task Input */
+.task-input {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.task-input input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    color: var(--light);
+    transition: all 0.3s ease;
+}
+
+.task-input input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+}
+
+.task-input button {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.task-input button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+}
+
+.task-input button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Task Result */
+.task-result {
+    margin-top: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.task-result h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--primary-light);
+}
+
+.task-result pre {
+    margin: 0;
+    white-space: pre-wrap;
+    font-size: 0.875rem;
+    color: var(--light);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.agent-card {
+    animation: fadeIn 0.5s ease-out;
+}
