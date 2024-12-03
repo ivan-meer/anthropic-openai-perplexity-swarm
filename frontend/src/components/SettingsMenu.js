@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const SettingsMenu = () => {
   const [settings, setSettings] = useState({});
@@ -7,8 +6,9 @@ const SettingsMenu = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await axios.get('/api/settings');
-        setSettings(response.data);
+        const response = await fetch('/api/settings');
+        const data = await response.json();
+        setSettings(data);
       } catch (error) {
         console.error('Error fetching settings:', error);
       }
@@ -18,7 +18,13 @@ const SettingsMenu = () => {
 
   const handleChange = async (key, value) => {
     try {
-      await axios.put(`/api/settings/${key}`, { value });
+      await fetch(`/api/settings/${key}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ value }),
+      });
       setSettings(prevSettings => ({
         ...prevSettings,
         [key]: value

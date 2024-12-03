@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import ActiveAgentInfo from '../ActiveAgentInfo';
 import AgentSettings from '../AgentSettings';
 import ChatSystemMessage, { ChatTimestamp } from '../ChatSystemMessage';
@@ -42,6 +42,7 @@ import {
 const ChatPage = () => {
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const [newMessage, setNewMessage] = useState('');
 
   const { activeAgent, updateAgent } = useAgent();
   const { messages, setMessages, addMessage, addSystemMessage } = useMessages(activeAgent);
