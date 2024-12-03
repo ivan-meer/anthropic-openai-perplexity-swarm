@@ -15,7 +15,7 @@ const Nav = styled.nav`
   background: ${({ theme }) => theme.colors.cardBg};
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.sm};
   position: sticky;
   top: 0;
   z-index: ${({ theme }) => theme.zIndices.nav};
