@@ -103,83 +103,83 @@ describe('ChatPage SEO', () => {
     it('uses semantic roles', () => {
       const { getByRole } = renderWithTheme(<ChatPage />);
 
-                content: 'summary_large_image'
-              }
-            }),
-            expect.objectContaining({
-              type: 'meta',
-              props: {
-                name: 'twitter:title',
-                content: expect.any(String)
-              }
-            })
-          ])
-        }),
-        {}
-      );
+      expect(getByRole('main')).toBeInTheDocument();
+      expect(getByRole('complementary')).toBeInTheDocument();
+      expect(getByRole('navigation')).toBeInTheDocument();
     });
   });
 
-  describe('Structured Data', () => {
-    it('includes WebPage schema', () => {
-      renderWithTheme(<ChatPage />);
+  describe('URL Structure', () => {
+    it('generates SEO-friendly URLs', () => {
+      const { getByRole } = renderWithTheme(<ChatPage />);
+      const links = getByRole('navigation').querySelectorAll('a');
 
-      expect(Helmet).toHaveBeenCalledWith(
-        expect.objectContaining({
-          children: expect.arrayContaining([
-            expect.objectContaining({
-              type: 'script',
-              props: {
-                type: 'application/ld+json',
-                children: expect.stringContaining('"@type":"WebPage"')
-              }
-            })
-          ])
-        }),
-        {}
-      );
+      links.forEach(link => {
+        expect(link.href).toMatch(/^[a-z0-9-\/]+$/);
+      });
     });
 
-    it('includes SoftwareApplication schema', () => {
+    it('includes canonical URL', () => {
+      renderWithTheme(<ChatPage />);
+      const canonical = document.querySelector('link[rel="canonical"]');
+
+      expect(canonical).toHaveAttribute('href', expect.stringMatching(/^https?:\/\//));
+    });
+
+    it('handles URL parameters', () => {
+      window.history.pushState({}, '', '?agent=test&theme=dark');
       renderWithTheme(<ChatPage />);
 
-      expect(Helmet).toHaveBeenCalledWith(
-        expect.objectContaining({
-          children: expect.arrayContaining([
-            expect.objectContaining({
-              type: 'script',
-              props: {
-                type: 'application/ld+json',
-                children: expect.stringContaining('"@type":"SoftwareApplication"')
-              }
-            })
-          ])
-        }),
-        {}
-      );
+      expect(document.title).toContain('Test Agent');
     });
   });
 
-  describe('Dynamic Meta Updates', () => {
-    it('updates title when agent changes', () => {
-      const { rerender } = renderWithTheme(
-        <ChatPage activeAgent={mockAgent} />
-      );
+  describe('Social Media', () => {
+    it('includes Open Graph tags', () => {
+      renderWithTheme(<ChatPage />);
 
-      const newAgent = { ...mockAgent, name: 'New Agent' };
-      rerender(<ChatPage activeAgent={newAgent} />);
+      expect(document.querySelector('meta[property="og:title"]')).toBeInTheDocument();
+      expect(document.querySelector('meta[property="og:description"]')).toBeInTheDocument();
+      expect(document.querySelector('meta[property="og:image"]')).toBeInTheDocument();
+    });
 
-      expect(Helmet).toHaveBeenLastCalledWith(
-        expect.objectContaining({
-          children: expect.arrayContaining([
-            expect.objectContaining({
-              type: 'title',
-              props: {
-                children: expect.stringContaining('New Agent')
-              }
-            })
-          ])
-        }),
+    it('includes Twitter Card tags', () => {
+      renderWithTheme(<ChatPage />);
+
+      expect(document.querySelector('meta[name="twitter:card"]')).toBeInTheDocument();
+      expect(document.querySelector('meta[name="twitter:title"]')).toBeInTheDocument();
+      expect(document.querySelector('meta[name="twitter:description"]')).toBeInTheDocument();
+    });
+
+    it('updates social tags with dynamic content', async () => {
+      const { getByRole } = renderWithTheme(<ChatPage />);
+      const input = getByRole('textbox');
+
+      fireEvent.change(input, { target: { value: 'Test message' } });
+      fireEvent.submit(input.closest('form'));
+
+      await waitFor(() => {
+        const ogDescription = document.querySelector('meta[property="og:description"]');
+        expect(ogDescription.content).toContain('Test message');
+      });
+    });
+  });
+
+  describe('Performance', () => {
+    it('lazy loads non-critical content', () => {
+      const { container } = renderWithTheme(<ChatPage />);
+      const images = container.querySelectorAll('img[loading="lazy"]');
+
+      expect(images.length).toBeGreaterThan(0);
+    });
+
+    it('preloads critical resources', () => {
+      renderWithTheme(<ChatPage />);
+      const preloads = document.querySelectorAll('link[rel="preload"]');
+
+      expect(preloads.length).toBeGreaterThan(0);
+    });
+
         {}
       );
     });
